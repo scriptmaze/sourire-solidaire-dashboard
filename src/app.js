@@ -5,7 +5,7 @@
   const MONTHS = ["Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre", "Janvier", "Février", "Mars", "Avril"];
   const REGIONS = ["Laval", "Montréal", "Laurentides", "Lanaudière", "Autre"];
   const REFERRERS = ["Dentiste", "CISSS / CIUSSS", "Organisme communautaire", "Famille", "Pédiatre / médecin", "Autre"];
-  const state = { history: emptyHistory(), latest: null, warnings: [], activeChart: "region" };
+  const state = { history: emptyHistory(), latest: null, selectedMonth: null, warnings: [], activeChart: "region" };
 
   const el = {
     historyFile: document.querySelector("#history-file"),
@@ -15,7 +15,7 @@
     clear: document.querySelector("#clear-session"),
     messages: document.querySelector("#messages"),
     results: document.querySelector("#results"),
-    latestMonth: document.querySelector("#latest-month"),
+    selectedMonth: document.querySelector("#selected-month"),
     kpis: document.querySelector("#kpi-grid"),
     regionTable: document.querySelector("#region-table"),
     referrerTable: document.querySelector("#referrer-table"),
@@ -194,9 +194,11 @@
   }
 
   function renderResults() {
-    const data = state.history[state.latest];
+    const available = MONTHS.filter((month) => total(state.history[month].regions) > 0);
+    if (!state.selectedMonth || !available.includes(state.selectedMonth)) state.selectedMonth = available[available.length - 1];
+    const data = state.history[state.selectedMonth];
     el.results.hidden = false;
-    el.latestMonth.textContent = state.latest;
+    el.selectedMonth.innerHTML = available.map((month) => `<option value="${month}"${month === state.selectedMonth ? " selected" : ""}>${month}</option>`).join("");
     const kpis = [
       ["Références reçues", total(data.regions)],
       ["Références de dentistes", data.referrers.Dentiste],
@@ -271,6 +273,7 @@
       }
       const available = MONTHS.filter((month) => total(state.history[month].regions) > 0);
       state.latest = available[available.length - 1];
+      state.selectedMonth = state.latest;
       if (!state.latest) throw new Error("Aucune référence exploitable n’a été trouvée dans les exports.");
       messages.unshift({ type: "success", text: `${exports.length} export(s) traité(s). Les résultats sont calculés dans ce navigateur.` });
       showMessages(messages);
@@ -282,7 +285,7 @@
   }
 
   function reset() {
-    state.history = emptyHistory(); state.latest = null; state.warnings = [];
+    state.history = emptyHistory(); state.latest = null; state.selectedMonth = null; state.warnings = [];
     el.historyFile.value = ""; el.dentitekFiles.value = ""; el.results.hidden = true;
     showMessages([{ type: "success", text: "La session a été effacée. Les données importées ne sont plus conservées par cette page." }]);
     updateFileSummary();
@@ -294,8 +297,9 @@
   el.clear.addEventListener("click", reset);
   el.download.addEventListener("click", () => {
     const wb = buildExportWorkbook();
-    XLSX.writeFile(wb, `Historique_Sourire_Solidaire_${state.latest}_2026.xlsx`, { compression: true });
+    XLSX.writeFile(wb, `Historique_Sourire_Solidaire_${state.selectedMonth}_2026.xlsx`, { compression: true });
   });
+  el.selectedMonth.addEventListener("change", (event) => { state.selectedMonth = event.target.value; renderResults(); });
   el.tabs.forEach((tab) => tab.addEventListener("click", () => {
     state.activeChart = tab.dataset.chart;
     el.tabs.forEach((button) => { const selected = button === tab; button.classList.toggle("active", selected); button.setAttribute("aria-selected", selected); });
