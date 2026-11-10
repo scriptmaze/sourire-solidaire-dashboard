@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="fr-CA">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Pipeline local d'indicateurs Dentitek pour Sourire Solidaire." />
+    <title>Tableau de bord — Sourire Solidaire</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="hero">
+        <p class="eyebrow">Sourire Solidaire · Étape 1</p>
+        <h1>Tableau de bord des références</h1>
+        <p class="lede">Importez les exports Dentitek et obtenez les indicateurs mensuels, sans téléverser de données.</p>
+      </header>
+
+      <section class="privacy" aria-labelledby="privacy-title">
+        <div class="privacy-mark" aria-hidden="true">✓</div>
+        <div>
+          <h2 id="privacy-title">Traitement local et temporaire</h2>
+          <p>Les fichiers sont lus dans ce navigateur seulement. Aucune donnée patient n’est envoyée, sauvegardée ou analysée par un serveur.</p>
+        </div>
+      </section>
+
+      <section class="card setup" aria-labelledby="setup-title">
+        <div class="section-heading">
+          <div>
+            <p class="step">1. Charger les fichiers</p>
+            <h2 id="setup-title">Sources de cette session</h2>
+          </div>
+          <button type="button" class="button secondary" id="clear-session">Effacer la session</button>
+        </div>
+        <div class="upload-grid">
+          <label class="upload-box">
+            <span class="upload-title">Historique Excel <em>facultatif</em></span>
+            <span class="upload-help">Chargez le tableau de bord déjà téléchargé pour conserver les mois précédents.</span>
+            <input id="history-file" type="file" accept=".xlsx,.xls" />
+          </label>
+          <label class="upload-box">
+            <span class="upload-title">Exports Dentitek</span>
+            <span class="upload-help">Sélectionnez un ou plusieurs fichiers mensuels au format .xls ou .xlsx.</span>
+            <input id="dentitek-files" type="file" accept=".xlsx,.xls" multiple />
+          </label>
+        </div>
+        <div id="file-summary" class="file-summary" aria-live="polite">Aucun fichier chargé.</div>
+        <button type="button" class="button primary" id="process-files">Calculer les indicateurs</button>
+      </section>
+
+      <section id="messages" class="messages" aria-live="polite"></section>
+
+      <section id="results" hidden>
+        <section class="card" aria-labelledby="overview-title">
+          <div class="section-heading">
+            <div>
+              <p class="step">2. Vérifier les résultats</p>
+              <h2 id="overview-title">Résumé du dernier mois</h2>
+            </div>
+            <span id="latest-month" class="month-chip"></span>
+          </div>
+          <div id="kpi-grid" class="kpi-grid"></div>
+        </section>
+
+        <section class="dashboard-grid">
+          <article class="card">
+            <h2>Répartition par provenance</h2>
+            <div id="region-table"></div>
+          </article>
+          <article class="card">
+            <h2>Répartition par type de référent</h2>
+            <div id="referrer-table"></div>
+          </article>
+        </section>
+
+        <section class="card" aria-labelledby="trend-title">
+          <div class="section-heading">
+            <div>
+              <p class="step">3. Consulter l’évolution</p>
+              <h2 id="trend-title">Tendance mensuelle</h2>
+            </div>
+          </div>
+          <div class="chart-tabs" role="tablist" aria-label="Choisir une tendance">
+            <button class="tab active" type="button" data-chart="region" role="tab" aria-selected="true">Par provenance</button>
+            <button class="tab" type="button" data-chart="referrer" role="tab" aria-selected="false">Par référent</button>
+          </div>
+          <div id="trend-chart" class="trend-chart"></div>
+        </section>
+
+        <section class="card export-card">
+          <div>
+            <p class="step">4. Conserver le résultat</p>
+            <h2>Télécharger l’historique mis à jour</h2>
+            <p>Le fichier généré contient seulement les agrégats mensuels. Conservez-le sur l’ordinateur de Kim et rechargez-le le mois prochain.</p>
+          </div>
+          <button type="button" class="button primary" id="download-history">Télécharger le fichier Excel</button>
+        </section>
+      </section>
+    </main>
+    <script src="./vendor/xlsx.full.min.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
