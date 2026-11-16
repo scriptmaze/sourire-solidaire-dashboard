@@ -18,6 +18,8 @@ h2 { font-size:1.3rem; letter-spacing:-.02em; margin:0; }
 .upload-grid { display:grid; gap:16px; grid-template-columns:1fr 1fr; margin:24px 0 14px; }
 .upload-box { border:1.5px dashed #a5b9b3; border-radius:14px; cursor:pointer; display:flex; flex-direction:column; min-height:160px; padding:22px; transition:.2s ease; }
 .upload-box:hover { background:var(--mist); border-color:var(--leaf); }
+.upload-box.missing-source { background:#fff1f1; border-color:var(--danger); box-shadow:0 0 0 3px rgba(158,61,66,.12); }
+.upload-box.missing-source .upload-title,.upload-box.missing-source .upload-help { color:#8a2731; }
 .upload-title { font-weight:700; }
 .upload-title em { color:var(--muted); font-size:.78rem; font-style:normal; font-weight:400; }
 .upload-help { color:var(--muted); font-size:.92rem; line-height:1.45; margin:10px 0 auto; }
@@ -33,4 +35,5 @@ table { border-collapse:collapse; font-size:.92rem; margin-top:20px; width:100%;
 .chart-tabs { display:flex; gap:8px; margin:22px 0 10px; }.tab { background:transparent; border:1px solid var(--line); border-radius:999px; color:var(--muted); cursor:pointer; padding:8px 12px; }.tab.active { background:var(--leaf); border-color:var(--leaf); color:white; }
 .trend-chart { overflow-x:auto; }.trend-chart svg { min-width:660px; width:100%; }.grid line { stroke:#e3e9e6; }.grid text,.axis-labels text { fill:#71847f; font-size:12px; }.legend { display:flex; flex-wrap:wrap; gap:10px 16px; margin-top:10px; }.legend span { align-items:center; color:var(--muted); display:flex; font-size:.84rem; gap:6px; }.legend i { border-radius:50%; display:block; height:9px; width:9px; }
 .export-card { align-items:center; display:flex; gap:24px; justify-content:space-between; }.export-card p:last-child { color:var(--muted); line-height:1.5; margin:9px 0 0; max-width:680px; }
+.unavailable { background:#fff8eb; border-color:#efcf92; }.unavailable p:last-child { color:#79530a; line-height:1.5; margin:10px 0 0; }
 @media (max-width:760px) { .shell { padding-top:38px; }.upload-grid,.dashboard-grid,.kpi-grid { grid-template-columns:1fr; }.export-card { align-items:flex-start; flex-direction:column; }.section-heading { align-items:flex-start; flex-direction:column; }.section-heading .button { align-self:flex-start; } }

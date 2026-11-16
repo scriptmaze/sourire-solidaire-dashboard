@@ -35,7 +35,7 @@
           </label>
         </div>
         <div class="upload-grid wait-upload-grid">
-          <label class="upload-box">
+          <label class="upload-box" id="wait-upload-box">
             <span class="upload-title">Liste d’attente</span>
             <span class="upload-help">Export mensuel comprenant les dates d’ouverture, de rendez-vous et de facturation.</span>
             <input id="wait-file" type="file" accept=".xlsx,.xls" />
@@ -77,7 +77,12 @@
           </article>
         </section>
 
-        <section id="wait-results" hidden>
+        <section id="wait-results">
+          <section class="card unavailable" id="wait-unavailable" hidden>
+            <p class="step">Indicateur 2</p>
+            <h2>Délai d’attente non calculable</h2>
+            <p>Ajoutez la liste d’attente et les exports de programmes SPM, SPM1 et SPM2, puis cliquez de nouveau sur « Calculer les indicateurs ».</p>
+          </section>
           <section class="card" aria-labelledby="wait-title">
             <div class="section-heading">
               <div>
