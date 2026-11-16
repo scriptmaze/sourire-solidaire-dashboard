@@ -10,7 +10,7 @@
   <body>
     <main class="shell">
       <header class="hero">
-        <p class="eyebrow">Sourire Solidaire · Étape 1</p>
+        <p class="eyebrow">Sourire Solidaire</p>
         <h1>Tableau de bord</h1>
       </header>
 
@@ -25,13 +25,25 @@
         <div class="upload-grid">
           <label class="upload-box">
             <span class="upload-title">Historique Excel <em>facultatif</em></span>
-            <span class="upload-help">Chargez le tableau de bord déjà téléchargé pour conserver les mois précédents.</span>
+            <span class="upload-help">Chargez le fichier téléchargé auparavant pour conserver les résultats mensuels.</span>
             <input id="history-file" type="file" accept=".xlsx,.xls" />
           </label>
           <label class="upload-box">
-            <span class="upload-title">Exports Dentitek</span>
-            <span class="upload-help">Sélectionnez un ou plusieurs fichiers mensuels au format .xls ou .xlsx.</span>
+            <span class="upload-title">Exports de références</span>
+            <span class="upload-help">Sélectionnez un ou plusieurs exports Dentitek pour l’indicateur 1.</span>
             <input id="dentitek-files" type="file" accept=".xlsx,.xls" multiple />
+          </label>
+        </div>
+        <div class="upload-grid wait-upload-grid">
+          <label class="upload-box">
+            <span class="upload-title">Liste d’attente</span>
+            <span class="upload-help">Export mensuel comprenant les dates d’ouverture, de rendez-vous et de facturation.</span>
+            <input id="wait-file" type="file" accept=".xlsx,.xls" />
+          </label>
+          <label class="upload-box">
+            <span class="upload-title">Exports de programmes</span>
+            <span class="upload-help">Ajoutez les exports SPM, SPM1 et SPM2. Ils servent à classer les délais par programme.</span>
+            <input id="program-files" type="file" accept=".xlsx,.xls" multiple />
           </label>
         </div>
         <div id="file-summary" class="file-summary" aria-live="polite">Aucun fichier chargé.</div>
@@ -44,7 +56,7 @@
         <section class="card" aria-labelledby="overview-title">
           <div class="section-heading">
             <div>
-              <p class="step">2. Vérifier les résultats</p>
+            <p class="step">2. Vérifier les résultats</p>
               <h2 id="overview-title">Résumé du mois sélectionné</h2>
             </div>
             <label class="month-picker" for="selected-month">Mois affiché
@@ -54,7 +66,7 @@
           <div id="kpi-grid" class="kpi-grid"></div>
         </section>
 
-        <section class="dashboard-grid">
+        <section class="dashboard-grid" id="referral-results">
           <article class="card">
             <h2>Répartition par provenance</h2>
             <div id="region-table"></div>
@@ -63,6 +75,40 @@
             <h2>Répartition par type de référent</h2>
             <div id="referrer-table"></div>
           </article>
+        </section>
+
+        <section id="wait-results" hidden>
+          <section class="card" aria-labelledby="wait-title">
+            <div class="section-heading">
+              <div>
+                <p class="step">Indicateur 2</p>
+                <h2 id="wait-title">Délai d’attente pour un premier service</h2>
+              </div>
+              <p class="inline-note">Moyenne en jours pour les dossiers ayant reçu un premier rendez-vous ou service.</p>
+            </div>
+            <div id="wait-kpi-grid" class="kpi-grid"></div>
+          </section>
+          <section class="dashboard-grid">
+            <article class="card">
+              <h2>Délais par programme</h2>
+              <div id="wait-table"></div>
+            </article>
+            <article class="card">
+              <h2>Contrôle des dossiers</h2>
+              <div id="wait-control-table"></div>
+            </article>
+          </section>
+          <section class="card" aria-labelledby="reason-title">
+            <div class="section-heading">
+              <div>
+                <p class="step">Indicateur 2.4</p>
+                <h2 id="reason-title">Dossiers retournés ou non joints</h2>
+              </div>
+              <strong class="reason-total" id="reason-total"></strong>
+            </div>
+            <p class="inline-note">Les motifs reconnus sont regroupés localement. Aucun nom ou dossier n’est affiché.</p>
+            <div id="reason-table"></div>
+          </section>
         </section>
 
         <section class="card" aria-labelledby="trend-title">
@@ -75,6 +121,7 @@
           <div class="chart-tabs" role="tablist" aria-label="Choisir une tendance">
             <button class="tab active" type="button" data-chart="region" role="tab" aria-selected="true">Par provenance</button>
             <button class="tab" type="button" data-chart="referrer" role="tab" aria-selected="false">Par référent</button>
+            <button class="tab" type="button" data-chart="wait" role="tab" aria-selected="false">Délais d’attente</button>
           </div>
           <div id="trend-chart" class="trend-chart"></div>
         </section>
